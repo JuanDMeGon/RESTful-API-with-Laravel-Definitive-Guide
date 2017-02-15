@@ -7,3 +7,4 @@
 /.vagrant
 Homestead.json
 .env
+*.sublime-*
