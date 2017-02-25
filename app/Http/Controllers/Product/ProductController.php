@@ -28,6 +28,6 @@ class ProductController extends ApiController
      */
     public function show(Product $product)
     {
-        //
+        return $this->showOne($product);
     }
 }
