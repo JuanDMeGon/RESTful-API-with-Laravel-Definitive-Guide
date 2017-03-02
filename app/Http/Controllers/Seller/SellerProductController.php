@@ -7,6 +7,7 @@ use App\Seller;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SellerProductController extends ApiController
 {
@@ -98,9 +99,13 @@ class SellerProductController extends ApiController
      * @param  \App\Seller  $seller
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Seller $seller)
+    public function destroy(Seller $seller, Product $product)
     {
-        //
+        $this->checkSeller($seller, $product);
+
+        $product->delete();
+
+        return $this->showOne($product);
     }
 
     protected function checkSeller(Seller $seller, Product $product)
