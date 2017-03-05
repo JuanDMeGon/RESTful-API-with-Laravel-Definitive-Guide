@@ -31,6 +31,6 @@ class UserCreated extends Mailable
      */
     public function build()
     {
-        return $this->text('emails.welcome');
+        return $this->markdown('emails.welcome')->subject('Please confirm your account');
     }
 }
