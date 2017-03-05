@@ -138,7 +138,9 @@ class UserController extends ApiController
             return $this->errorResponse('This user is already verified', 409);
         }
 
-        Mail::to($user)->send(new UserCreated($user));
+        retry(5, function() use ($user) {
+                Mail::to($user)->send(new UserCreated($user));
+            }, 100);
 
         return $this->showMessage('The verification email has been resend');
     }
