@@ -13,8 +13,16 @@ class TransformInput
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $transformer)
     {
+        $transformedInput = [];
+
+        foreach ($request->request->all() as $input => $value) {
+            $transformedInput[$transformer::originalAttribute($input)] = $value;
+        }
+
+        $request->replace($transformedInput);
+        
         return $next($request);
     }
 }
