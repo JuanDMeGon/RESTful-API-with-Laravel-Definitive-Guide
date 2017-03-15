@@ -22,6 +22,7 @@ $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
+Route::get('/home/my-tokens', 'HomeController@getTokens')->name('personal-tokens');
 Route::get('/home', 'HomeController@index');
 
 Route::get('/', function() {

@@ -13,7 +13,9 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Vue.component('example', require('./components/Example.vue'));
+Vue.component(
+	'passport-personal-access-tokens',
+	require('./components/passport/PersonalAccessTokens.vue'));
 
 //testing
 
