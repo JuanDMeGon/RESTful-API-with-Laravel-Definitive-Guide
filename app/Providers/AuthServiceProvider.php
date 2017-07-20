@@ -6,10 +6,12 @@ use App\User;
 use App\Buyer;
 use App\Seller;
 use Carbon\Carbon;
+use App\Transaction;
 use App\Policies\UserPolicy;
 use App\Policies\BuyerPolicy;
 use App\Policies\SellerPolicy;
 use Laravel\Passport\Passport;
+use App\Policies\TransactionPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         Buyer::class => BuyerPolicy::class,
         Seller::class => SellerPolicy::class,
         User::class => UserPolicy::class,
+        Transaction::class => TransactionPolicy::class,
     ];
 
     /**

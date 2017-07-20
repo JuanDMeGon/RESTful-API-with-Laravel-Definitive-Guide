@@ -12,6 +12,7 @@ class TransactionController extends ApiController
     {
         parent::__construct();
         $this->middleware('scope:read-general')->only('show');
+        $this->middleware('can:view,transaction')->only('show');
     }
     
     /**
@@ -21,9 +22,9 @@ class TransactionController extends ApiController
      */
     public function index()
     {
-        $tramsactions = Transaction::all();
+        $transactions = Transaction::all();
 
-        return $this->showAll($tramsactions);
+        return $this->showAll($transactions);
     }
 
     /**
