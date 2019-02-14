@@ -15,6 +15,8 @@
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
 $this->post('login', 'Auth\LoginController@login');
 $this->post('logout', 'Auth\LoginController@logout')->name('logout');
+$this->get('register', 'User\UserController@showRegisterForm')->name('register')->middleware('guest');
+$this->post('register', 'User\UserController@store')->middleware('guest');
 
 // Password Reset Routes...
 $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

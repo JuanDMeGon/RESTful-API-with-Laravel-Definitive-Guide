@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\User;
 use App\Mail\UserCreated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Transformers\UserTransformer;
 use App\Http\Controllers\ApiController;
@@ -13,9 +14,9 @@ class UserController extends ApiController
 {
     public function __construct()
     {
-        $this->middleware('client.credentials')->only(['store', 'resend']);
-        $this->middleware('auth:api')->except(['store', 'verify', 'resend']);
-        $this->middleware('transform.input:' . UserTransformer::class)->only(['store', 'update']);
+        $this->middleware('client.credentials')->only(['resend']);
+        $this->middleware('auth:api')->except(['showRegisterForm', 'store', 'verify', 'resend']);
+        $this->middleware('transform.input:' . UserTransformer::class)->only(['update']);
         $this->middleware('scope:manage-account')->only(['show', 'update']);
         $this->middleware('can:view,user')->only('show');
         $this->middleware('can:update,user')->only('update');
@@ -61,7 +62,14 @@ class UserController extends ApiController
 
         $user = User::create($data);
 
-        return $this->showOne($user, 201);
+        Auth::login($user);
+
+        return redirect('/home');
+    }
+
+    public function showRegisterForm()
+    {
+        return view('auth.register');
     }
 
     /**
