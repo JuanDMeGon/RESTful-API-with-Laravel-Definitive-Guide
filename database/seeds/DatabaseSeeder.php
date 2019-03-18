@@ -57,5 +57,15 @@ class DatabaseSeeder extends Seeder
             'revoked' => false,
         ]);
 
+        Passport::client()->forceCreate([
+            'user_id' => null,
+            'name' => '',
+            'secret' => 'secret',
+            'redirect' => '',
+            'personal_access_client' => true,
+            'password_client' => false,
+            'revoked' => false,
+        ]);
+
     }
 }
