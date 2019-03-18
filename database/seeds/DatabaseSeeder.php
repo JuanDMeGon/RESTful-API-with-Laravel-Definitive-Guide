@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'revoked' => false,
         ]);
 
-        Passport::client()->forceCreate([
+        $personalClient = Passport::client()->forceCreate([
             'user_id' => null,
             'name' => '',
             'secret' => 'secret',
@@ -67,5 +67,8 @@ class DatabaseSeeder extends Seeder
             'revoked' => false,
         ]);
 
+        Passport::personalAccessClient()->forceCreate([
+            'client_id' => $personalClient->id,
+        ]);
     }
 }
