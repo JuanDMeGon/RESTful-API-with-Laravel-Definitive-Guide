@@ -20,7 +20,7 @@ class ProductBuyerTransactionController extends ApiController
         $this->middleware('scope:purchase-product')->only(['store']);
         $this->middleware('can:purchase,buyer')->only('store');
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -30,7 +30,7 @@ class ProductBuyerTransactionController extends ApiController
     public function store(Request $request, Product $product, User $buyer)
     {
         $rules = [
-            'quantity' => 'required|integer|min:1'
+            'quantity' => 'required|integer|min:1',
         ];
 
         $this->validate($request, $rules);
@@ -39,23 +39,23 @@ class ProductBuyerTransactionController extends ApiController
             return $this->errorResponse('The buyer must be different from the seller', 409);
         }
 
-        if (!$buyer->isVerified()) {
+        /*if (!$buyer->isVerified()) {
             return $this->errorResponse('The buyer must be a verified user', 409);
         }
 
         if (!$product->seller->isVerified()) {
             return $this->errorResponse('The seller must be a verified user', 409);
-        }
+        }*/
 
         if (!$product->isAvailable()) {
-            return $this->errorResponse('The product is not available', 409);   
+            return $this->errorResponse('The product is not available', 409);
         }
 
         if ($product->quantity < $request->quantity) {
-            return $this->errorResponse('The product does not have enough units for this transaction', 409);   
+            return $this->errorResponse('The product does not have enough units for this transaction', 409);
         }
 
-        return DB::transaction(function() use ($request, $product, $buyer) {
+        return DB::transaction(function () use ($request, $product, $buyer) {
             $product->quantity -= $request->quantity;
             $product->save();
 
