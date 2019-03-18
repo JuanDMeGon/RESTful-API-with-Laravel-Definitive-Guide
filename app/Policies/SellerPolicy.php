@@ -24,17 +24,6 @@ class SellerPolicy
     }
 
     /**
-     * Determine whether the user can sale product.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function sale(User $user, User $seller)
-    {
-        return $user->id === $seller->id;
-    }
-
-    /**
      * Determine whether the user can update a product.
      *
      * @param  \App\User  $user
