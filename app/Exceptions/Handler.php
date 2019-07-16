@@ -91,6 +91,10 @@ class Handler extends ExceptionHandler
         if ($exception instanceof MethodNotAllowedHttpException) {
             return $this->errorResponse('The specified method for the request is invalid', 405);
         }
+        
+        if ($exception instanceof \BadMethodCallException) {
+            return $this->errorResponse('The specified method for the request does not exist.', 405);
+		}
 
         if ($exception instanceof NotFoundHttpException) {
             return $this->errorResponse('The specified URL cannot be found', 404);
