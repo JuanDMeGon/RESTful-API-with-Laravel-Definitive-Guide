@@ -90,6 +90,8 @@ class UserController extends ApiController
             'admin' => 'in:' . User::ADMIN_USER . ',' . User::REGULAR_USER,
         ];
 
+        $this->validate($request, $rules);
+
         if ($request->has('name')) {
             $user->name = $request->name;
         }
