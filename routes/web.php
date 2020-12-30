@@ -15,6 +15,8 @@
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('register', 'User\UserController@showRegisterForm')->name('register')->middleware('guest');
+Route::post('register', 'User\UserController@store')->middleware('guest');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -30,3 +32,4 @@ Route::get('/home', 'HomeController@index');
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
+Route::view('/', 'welcome')->middleware('guest');

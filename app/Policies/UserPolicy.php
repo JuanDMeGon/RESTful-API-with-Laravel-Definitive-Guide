@@ -45,4 +45,27 @@ class UserPolicy
     {
         return $authenticatedUser->id === $user->id && $authenticatedUser->token()->client->personal_access_client;
     }
+
+    /**
+     * Determine whether the user can sale product.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function sale(User $user, User $seller)
+    {
+        return $user->id === $seller->id;
+    }
+
+    /**
+     * Determine whether the user can purchase something.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Buyer  $buyer
+     * @return mixed
+     */
+    public function purchase(User $user, User $buyer)
+    {
+        return $user->id === $buyer->id;
+    }
 }

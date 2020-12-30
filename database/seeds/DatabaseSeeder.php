@@ -4,6 +4,7 @@ use App\User;
 use App\Product;
 use App\Category;
 use App\Transaction;
+use Laravel\Passport\Passport;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    	DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 
         User::truncate();
         Category::truncate();
@@ -38,13 +39,36 @@ class DatabaseSeeder extends Seeder
         factory(Category::class, $categoriesQuantity)->create();
 
         factory(Product::class, $productsQuantity)->create()->each(
-        	function ($product) {
-        		$categories = Category::all()->random(mt_rand(1, 5))->pluck('id');
+            function ($product) {
+                $categories = Category::all()->random(mt_rand(1, 5))->pluck('id');
 
-        		$product->categories()->attach($categories);
-        	});
+                $product->categories()->attach($categories);
+            });
 
         factory(Transaction::class, $transactionsQuantity)->create();
 
+        Passport::client()->forceCreate([
+            'user_id' => null,
+            'name' => '',
+            'secret' => 'secret',
+            'redirect' => '',
+            'personal_access_client' => true,
+            'password_client' => true,
+            'revoked' => false,
+        ]);
+
+        $personalClient = Passport::client()->forceCreate([
+            'user_id' => null,
+            'name' => '',
+            'secret' => 'secret',
+            'redirect' => '',
+            'personal_access_client' => true,
+            'password_client' => false,
+            'revoked' => false,
+        ]);
+
+        Passport::personalAccessClient()->forceCreate([
+            'client_id' => $personalClient->id,
+        ]);
     }
 }

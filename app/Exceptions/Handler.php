@@ -11,6 +11,7 @@ use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -25,7 +26,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        OAuthServerException::class,
     ];
 
     /**
@@ -113,7 +114,7 @@ class Handler extends ExceptionHandler
         }
 
         if (config('app.debug')) {
-            return parent::render($request, $exception);            
+            return parent::render($request, $exception);
         }
 
         return $this->errorResponse('Unexpected Exception. Try later', 500);
@@ -147,12 +148,12 @@ class Handler extends ExceptionHandler
         $errors = $e->validator->errors()->getMessages();
 
         if ($this->isFrontend($request)) {
-            return $request->ajax() ? response()->json($error, 422) : redirect()
+            return $request->ajax() ? response()->json($errors, 422) : redirect()
                 ->back()
                 ->withInput($request->input())
                 ->withErrors($errors);
         }
-        
+
         return $this->errorResponse($errors, 422);
     }
 
