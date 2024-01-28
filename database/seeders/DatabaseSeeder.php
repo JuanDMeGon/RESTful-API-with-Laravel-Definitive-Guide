@@ -1,12 +1,15 @@
 <?php
 
-use App\User;
-use App\Product;
+namespace Database\Seeders;
+
 use App\Category;
+use App\Product;
 use App\Transaction;
-use Laravel\Passport\Passport;
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Laravel\Passport\Passport;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,7 +20,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::disableForeignKeyConstraints();
+        // DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 
         User::truncate();
         Category::truncate();
@@ -70,5 +74,7 @@ class DatabaseSeeder extends Seeder
         Passport::personalAccessClient()->forceCreate([
             'client_id' => $personalClient->id,
         ]);
+
+        Schema::enableForeignKeyConstraints();
     }
 }
