@@ -117,6 +117,10 @@ class Handler extends ExceptionHandler
             return parent::render($request, $exception);
         }
 
+        if (app()->environment('production') && app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
+        }
+
         return $this->errorResponse('Unexpected Exception. Try later', 500);
     }
 

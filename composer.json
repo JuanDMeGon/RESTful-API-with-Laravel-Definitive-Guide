@@ -17,6 +17,7 @@
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
+        "sentry/sentry-laravel": "^4.1",
         "spatie/laravel-fractal": "^5.8.1"
     },
     "require-dev": {
