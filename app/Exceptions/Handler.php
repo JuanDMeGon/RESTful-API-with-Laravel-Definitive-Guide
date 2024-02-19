@@ -73,6 +73,7 @@ class Handler extends ExceptionHandler
 
     public function handleException($request, Throwable $exception)
     {
+        dd($exception);
         if ($exception instanceof LeageException) {
             return $this->errorResponse(
                 $exception->getMessage(),
