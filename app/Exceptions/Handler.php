@@ -73,7 +73,6 @@ class Handler extends ExceptionHandler
 
     public function handleException($request, Throwable $exception)
     {
-        dd($exception instanceof OAuthServerException, $exception);
         if ($exception instanceof OAuthServerException) {
             return $this->errorResponse(
                 $exception->getMessage(),
