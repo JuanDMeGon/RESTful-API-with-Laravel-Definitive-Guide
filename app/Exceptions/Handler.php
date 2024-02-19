@@ -73,6 +73,13 @@ class Handler extends ExceptionHandler
 
     public function handleException($request, Throwable $exception)
     {
+        if ($exception instanceof LeageException) {
+            return $this->errorResponse(
+                $exception->getMessage(),
+                $exception->getHttpStatusCode()
+            );
+        }
+
         if ($exception instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($exception, $request);
         }
