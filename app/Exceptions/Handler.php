@@ -73,11 +73,10 @@ class Handler extends ExceptionHandler
 
     public function handleException($request, Throwable $exception)
     {
-        dd($exception);
-        if ($exception instanceof LeageException) {
+        if ($exception instanceof OAuthServerException) {
             return $this->errorResponse(
                 $exception->getMessage(),
-                $exception->getHttpStatusCode()
+                $exception->getCode()
             );
         }
 
